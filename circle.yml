@@ -23,6 +23,7 @@ general:
 
 dependencies:
   cache_directories:
+    - "~/.yarn"
     - "~/.cache/yarn"
     - "~/.google-cloud-sdk"
   override:
