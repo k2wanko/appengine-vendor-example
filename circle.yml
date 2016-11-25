@@ -2,19 +2,21 @@ machine:
   timezone:
     Asia/Tokyo
   environment:
-    PATH: "${PATH}:/opt/google-cloud-sdk/platform/google_appengine"
+    PATH: "${PATH}:$HOME/.yarn/bin:/opt/google-cloud-sdk/platform/google_appengine"
     GOPATH: "${HOME}/.go_workspace"
     PROJECT_PACKAGE: "${CIRCLE_REPOSITORY_URL:8:${#CIRCLE_REPOSITORY_URL}}"
     WORK_DIR: "${GOPATH}/src/${PROJECT_PACKAGE}"
   post:
-    - curl -o- -L https://yarnpkg.com/install.sh | bash
-    - mkdir -p $(dirname ${WORK_DIR})
-    - ln -fs ~/${CIRCLE_PROJECT_REPONAME} ${WORK_DIR}
+    # Install yarn
+    - which yarn 1> /dev/null || curl -o- -L https://yarnpkg.com/install.sh | bash
+    # Update gcloud
     - test -e ~/.google-cloud-sdk || sudo mv /opt/google-cloud-sdk ~/.google-cloud-sdk 
     - sudo rm -rf /opt/google-cloud-sdk && sudo ln -fs ~/.google-cloud-sdk /opt/google-cloud-sdk
     - sudo /opt/google-cloud-sdk/bin/gcloud components update -q
     - sudo /opt/google-cloud-sdk/bin/gcloud components install app-engine-go -q
     - sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp
+    # Link PROJECT_PACKAGE
+    - test -e $(dirname ${WORK_DIR}) || mkdir -p $(dirname ${WORK_DIR}) && ln -fs ~/${CIRCLE_PROJECT_REPONAME} ${WORK_DIR}
  
 general:
   build_dir: "../.go_workspace/src/${PROJECT_PACKAGE}"
