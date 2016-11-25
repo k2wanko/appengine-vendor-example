@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "test": "goapp test -v ./backend",
     "deploy": "goapp deploy backend",
     "dev": "goapp serve backend"
   }
