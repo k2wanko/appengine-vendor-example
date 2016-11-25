@@ -15,8 +15,9 @@ machine:
     - sudo /opt/google-cloud-sdk/bin/gcloud components update -q
     - sudo /opt/google-cloud-sdk/bin/gcloud components install app-engine-go -q
     - sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp
-    # Link PROJECT_PACKAGE
-    - test -e $(dirname ${WORK_DIR}) || mkdir -p $(dirname ${WORK_DIR}) && ln -fs ~/${CIRCLE_PROJECT_REPONAME} ${WORK_DIR}
+    - sudo chown $USER:$USER -R ~/.config/gcloud
+    # Put PROJECT_PACKAGE to GOPATH
+    - mkdir -p $(dirname ${WORK_DIR}) && rm -rf ${WORK_DIR} && mv ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR}) && mkdir ~/${CIRCLE_PROJECT_REPONAME}
  
 general:
   build_dir: "../.go_workspace/src/${PROJECT_PACKAGE}"
@@ -29,5 +30,14 @@ dependencies:
   override:
     - yarn
 test:
+  pre:
+    - openssl aes-256-cbc -d -in service_account.json.enc -k $KEY > service_account.json
+    - gcloud auth activate-service-account --key-file service_account.json && ./tools/set_appcfg_token.sh
   override:
     - yarn test
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - yarn run deploy
