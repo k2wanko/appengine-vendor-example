@@ -23,7 +23,8 @@ func init() {
 
 func handle(c echo.Context) error {
 	appID := appengine.AppID(c.StdContext())
-	return c.HTML(200, fmt.Sprintf("<html><body>Hello, World! %s</body></html>", appID))
+	html := fmt.Sprintf("<html><body>Hello, World! %s</body></html>", appID)
+	return c.HTML(200, html)
 }
 
 func AppContext(next echo.HandlerFunc) echo.HandlerFunc {
