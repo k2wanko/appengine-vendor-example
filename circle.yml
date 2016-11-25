@@ -1,0 +1,27 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  environment:
+    PATH: "${PATH}:/opt/google-cloud-sdk/platform/google_appengine"
+    GOPATH: "${HOME}/.go_workspace"
+    PROJECT_PACKAGE: "${CIRCLE_REPOSITORY_URL:8:${#CIRCLE_REPOSITORY_URL}}"
+    WORK_DIR: "${GOPATH}/src/${PROJECT_PACKAGE}"
+  post:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - mkdir -p $(dirname ${WORK_DIR})
+    - ln -fs ~/${CIRCLE_PROJECT_REPONAME} ${WORK_DIR}
+    - sudo /opt/google-cloud-sdk/bin/gcloud components update -q
+    - sudo /opt/google-cloud-sdk/bin/gcloud components install app-engine-go -q
+    - sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp
+ 
+general:
+  build_dir: "../.go_workspace/src/${PROJECT_PACKAGE}"
+
+dependencies:
+  cache_directories:
+    - "~/.cache/yarn"
+  override:
+    - yarn
+test:
+  override:
+    - yarn test
