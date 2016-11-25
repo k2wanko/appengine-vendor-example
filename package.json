@@ -1,7 +1,11 @@
 {
   "name": "appengine-vendor-example",
   "version": "1.0.0",
-  "private": true,
   "author": "Kazuhiro Kubota <k2.wanko@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "deploy": "goapp deploy backend",
+    "dev": "goapp serve backend"
+  }
 }
