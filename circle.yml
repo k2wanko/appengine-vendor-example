@@ -10,6 +10,8 @@ machine:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - mkdir -p $(dirname ${WORK_DIR})
     - ln -fs ~/${CIRCLE_PROJECT_REPONAME} ${WORK_DIR}
+    - test -e ~/.google-cloud-sdk || sudo mv /opt/google-cloud-sdk ~/.google-cloud-sdk 
+    - sudo rm -rf /opt/google-cloud-sdk && sudo ln -fs ~/.google-cloud-sdk /opt/google-cloud-sdk
     - sudo /opt/google-cloud-sdk/bin/gcloud components update -q
     - sudo /opt/google-cloud-sdk/bin/gcloud components install app-engine-go -q
     - sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp
@@ -20,6 +22,7 @@ general:
 dependencies:
   cache_directories:
     - "~/.cache/yarn"
+    - "~/.google-cloud-sdk"
   override:
     - yarn
 test:
