@@ -4,14 +4,31 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/engine/standard"
+
 	"google.golang.org/appengine"
 )
 
 func init() {
-	http.HandleFunc("/", handle)
+	e := echo.New()
+
+	e.Use(AppContext)
+	e.GET("/", handle)
+
+	s := standard.New("")
+	s.SetHandler(e)
+	http.Handle("/", s)
 }
 
-func handle(w http.ResponseWriter, r *http.Request) {
-	ctx := appengine.NewContext(r)
-	fmt.Fprintf(w, "<html><body>Hello, World! %s</body></html>", appengine.AppID(ctx))
+func handle(c echo.Context) error {
+	ctx := c.StdContext()
+	return c.HTML(200, fmt.Sprintf("<html><body>Hello, World! %s</body></html>", appengine.AppID(ctx)))
+}
+
+func AppContext(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		c.SetStdContext(appengine.WithContext(c.StdContext(), c.Request().(*standard.Request).Request))
+		return next(c)
+	}
 }

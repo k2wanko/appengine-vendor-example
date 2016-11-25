@@ -7,3 +7,18 @@
 [submodule "vendor/google.golang.org/appengine"]
 	path = vendor/google.golang.org/appengine
 	url = https://github.com/golang/appengine
+[submodule "vendor/github.com/labstack/echo"]
+	path = vendor/github.com/labstack/echo
+	url = https://github.com/labstack/echo
+[submodule "vendor/github.com/labstack/gommon"]
+	path = vendor/github.com/labstack/gommon
+	url = https://github.com/labstack/gommon
+[submodule "vendor/github.com/mattn/go-colorable"]
+	path = vendor/github.com/mattn/go-colorable
+	url = https://github.com/mattn/go-colorable
+[submodule "vendor/github.com/mattn/go-isatty"]
+	path = vendor/github.com/mattn/go-isatty
+	url = https://github.com/mattn/go-isatty
+[submodule "vendor/github.com/valyala/fasttemplate"]
+	path = vendor/github.com/valyala/fasttemplate
+	url = https://github.com/valyala/fasttemplate
