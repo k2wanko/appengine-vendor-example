@@ -5,8 +5,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "goapp test -v ./backend",
     "deploy": "goapp deploy backend",
-    "dev": "goapp serve backend"
+    "dev": "goapp serve backend",
+    "postinstall": "git submodule update --init --recursive",
+    "test": "goapp test -v ./backend"
   }
 }
