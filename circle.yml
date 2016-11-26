@@ -1,6 +1,4 @@
 machine:
-  timezone:
-    Asia/Tokyo
   environment:
     PATH: "${PATH}:$HOME/.yarn/bin:/opt/google-cloud-sdk/platform/google_appengine"
     GOPATH: "${HOME}/.go_workspace"
