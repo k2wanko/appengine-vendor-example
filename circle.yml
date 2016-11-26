@@ -6,7 +6,9 @@ machine:
     WORK_DIR: "${GOPATH}/src/${PROJECT_PACKAGE}"
   post:
     # Install yarn
-    - test -e $HOME/.yarn/bin/yarn || curl -o- -L https://yarnpkg.com/install.sh | bash
+    - >
+      test -e $HOME/.yarn/bin/yarn || curl -o- -L https://yarnpkg.com/install.sh | bash;
+      yarn self-update
     # Update gcloud
     - >
       test -e ~/.google-cloud-sdk || sudo mv /opt/google-cloud-sdk ~/.google-cloud-sdk;
