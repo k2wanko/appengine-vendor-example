@@ -10,12 +10,13 @@ machine:
     # Install yarn
     - test -e $HOME/.yarn/bin/yarn || curl -o- -L https://yarnpkg.com/install.sh | bash
     # Update gcloud
-    - test -e ~/.google-cloud-sdk || sudo mv /opt/google-cloud-sdk ~/.google-cloud-sdk 
-    - sudo rm -rf /opt/google-cloud-sdk && sudo ln -fs ~/.google-cloud-sdk /opt/google-cloud-sdk
-    - sudo /opt/google-cloud-sdk/bin/gcloud components update -q
-    - sudo /opt/google-cloud-sdk/bin/gcloud components install app-engine-go -q
-    - sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp
-    - sudo chown $USER:$USER -R ~/.config/gcloud
+    - >
+      test -e ~/.google-cloud-sdk || sudo mv /opt/google-cloud-sdk ~/.google-cloud-sdk;
+      sudo rm -rf /opt/google-cloud-sdk && sudo ln -fs ~/.google-cloud-sdk /opt/google-cloud-sdk &&
+      sudo /opt/google-cloud-sdk/bin/gcloud components update -q &&
+      sudo /opt/google-cloud-sdk/bin/gcloud components install app-engine-go -q &&
+      sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp &&
+      sudo chown $USER:$USER -R ~/.config/gcloud
     # Put PROJECT_PACKAGE to GOPATH
     - mkdir -p $(dirname ${WORK_DIR}) && rm -rf ${WORK_DIR} && mv ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR}) && mkdir ~/${CIRCLE_PROJECT_REPONAME}
  
