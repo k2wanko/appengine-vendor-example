@@ -7,7 +7,7 @@
   "scripts": {
     "deploy": "goapp deploy backend",
     "dev": "goapp serve backend",
-    "postinstall": "git submodule sync && git submodule update --init && go get -v ./...",
+    "postinstall": "git submodule update --init --recursive && go get -v ./...",
     "test": "goapp test -v ./backend"
   }
 }
