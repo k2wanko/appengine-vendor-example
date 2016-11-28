@@ -12,13 +12,16 @@ machine:
     # Update gcloud
     - >
       test -e ~/.google-cloud-sdk || sudo mv /opt/google-cloud-sdk ~/.google-cloud-sdk;
-      sudo rm -rf /opt/google-cloud-sdk && sudo ln -fs ~/.google-cloud-sdk /opt/google-cloud-sdk &&
+      sudo rm -rf /opt/google-cloud-sdk && 
+      sudo ln -fs ~/.google-cloud-sdk /opt/google-cloud-sdk &&
       sudo /opt/google-cloud-sdk/bin/gcloud components update -q &&
       sudo /opt/google-cloud-sdk/bin/gcloud components install app-engine-go -q &&
       sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp &&
       sudo chown $USER:$USER -R ~/.config/gcloud
     # Put PROJECT_PACKAGE to GOPATH
-    - mkdir -p $(dirname ${WORK_DIR}) && rsync -azC --delete --include '.git/' ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR})
+    - >
+      mkdir -p $(dirname ${WORK_DIR}) &&
+      rsync -azC --delete --include '.git/' ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR})
 
 general:
   build_dir: "../.go_workspace/src/${PROJECT_PACKAGE}"
