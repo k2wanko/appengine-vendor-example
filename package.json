@@ -5,13 +5,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "yarn": "yarn",
     "deploy": "goapp deploy backend",
     "dev": "goapp serve backend",
     "postinstall": "git submodule update --init --recursive && go get ./...",
     "test": "goapp test -v ./backend"
-  },
-  "devDependencies": {
-    "yarn": "^0.17.9"
   }
 }
