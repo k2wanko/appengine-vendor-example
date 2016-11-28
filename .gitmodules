@@ -1,12 +1,3 @@
-[submodule "vendor/github.com/golang/protobuf"]
-	path = vendor/github.com/golang/protobuf
-	url = https://github.com/golang/protobuf
-[submodule "vendor/golang.org/x/net"]
-	path = vendor/golang.org/x/net
-	url = https://github.com/golang/net
-[submodule "vendor/google.golang.org/appengine"]
-	path = vendor/google.golang.org/appengine
-	url = https://github.com/golang/appengine
 [submodule "vendor/github.com/labstack/echo"]
 	path = vendor/github.com/labstack/echo
 	url = https://github.com/labstack/echo
