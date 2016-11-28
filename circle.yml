@@ -20,11 +20,6 @@ machine:
     # Put PROJECT_PACKAGE to GOPATH
     - mkdir -p $(dirname ${WORK_DIR}) && rsync -azC --delete ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR})
 
-checkout:
-  post:
-    - git submodule sync
-    - git submodule update --init
-
 general:
   build_dir: "../.go_workspace/src/${PROJECT_PACKAGE}"
 
@@ -37,6 +32,8 @@ dependencies:
     - yarn
 test:
   pre:
+    # update locally with:
+    # $ openssl aes-256-cbc -e -in service_account.json -out service_account.json.enc -k $KEY
     - openssl aes-256-cbc -d -in service_account.json.enc -k $KEY > service_account.json
     - gcloud auth activate-service-account --key-file service_account.json && ./tools/set_appcfg_token.sh
   override:
