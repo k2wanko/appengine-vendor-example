@@ -19,7 +19,12 @@ machine:
       sudo chown $USER:$USER -R ~/.config/gcloud
     # Put PROJECT_PACKAGE to GOPATH
     - mkdir -p $(dirname ${WORK_DIR}) && rsync -azC --delete ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR})
- 
+
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
 general:
   build_dir: "../.go_workspace/src/${PROJECT_PACKAGE}"
 
