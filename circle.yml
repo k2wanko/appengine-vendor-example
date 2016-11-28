@@ -1,14 +1,10 @@
 machine:
   environment:
-    PATH: "${PATH}:$HOME/.yarn/bin:/opt/google-cloud-sdk/platform/google_appengine"
+    PATH: "${PATH}:/opt/google-cloud-sdk/platform/google_appengine"
     GOPATH: "${HOME}/.go_workspace"
     PROJECT_PACKAGE: "${CIRCLE_REPOSITORY_URL:8:${#CIRCLE_REPOSITORY_URL}}"
     WORK_DIR: "${GOPATH}/src/${PROJECT_PACKAGE}"
   post:
-    # Install yarn
-    - >
-      test -e $HOME/.yarn/bin/yarn || curl -o- -L https://yarnpkg.com/install.sh | bash;
-      yarn self-update
     # Update gcloud
     - >
       test -e ~/.google-cloud-sdk || sudo mv /opt/google-cloud-sdk ~/.google-cloud-sdk;
@@ -25,20 +21,19 @@ general:
 
 dependencies:
   cache_directories:
-    - "~/.yarn"
     - "~/.cache/yarn"
     - "~/.google-cloud-sdk"
   override:
-    - yarn
+    - npm run yarn
 test:
   pre:
     - openssl aes-256-cbc -d -in service_account.json.enc -k $KEY > service_account.json
     - gcloud auth activate-service-account --key-file service_account.json && ./tools/set_appcfg_token.sh
   override:
-    - yarn test
+    - npm test
 
 deployment:
   production:
     branch: master
     commands:
-      - yarn run deploy
+      - npm run deploy
