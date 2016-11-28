@@ -18,7 +18,7 @@ machine:
       sudo chmod +x /opt/google-cloud-sdk/platform/google_appengine/goapp &&
       sudo chown $USER:$USER -R ~/.config/gcloud
     # Put PROJECT_PACKAGE to GOPATH
-    - mkdir -p $(dirname ${WORK_DIR}) && rm -rf ${WORK_DIR} && mv ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR}) && mkdir ~/${CIRCLE_PROJECT_REPONAME}
+    - mkdir -p $(dirname ${WORK_DIR}) && rsync -azC --delete ~/${CIRCLE_PROJECT_REPONAME} $(dirname ${WORK_DIR})
  
 general:
   build_dir: "../.go_workspace/src/${PROJECT_PACKAGE}"
